@@ -1,72 +1,37 @@
 import { Injectable } from '@nestjs/common';
+import { ApiService } from 'src/api/api.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { HttpService } from '@nestjs/axios';
-import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class ProductsService {
-  constructor(private readonly httpService: HttpService) {}
+  constructor(private apiService: ApiService) {}
 
   async create(createProductDto: CreateProductDto) {
-    const { data } = await firstValueFrom(
-      this.httpService.post(
-        'https://fakestoreapi.com/products',
-        createProductDto,
-      ),
-    );
-    return data;
+    return this.apiService.createProduct(createProductDto);
   }
 
   async findAll(limit?: number, sort?: string) {
-    const { data } = await firstValueFrom(
-      this.httpService.get('https://fakestoreapi.com/products', {
-        params: {
-          ...(limit && { limit: limit.toString() }),
-          ...(sort && { sort }),
-        },
-      }),
-    );
-    return data;
+    return this.apiService.findAllProducts(limit, sort);
   }
 
   async findOne(id: number) {
-    const { data } = await firstValueFrom(
-      this.httpService.get(`https://fakestoreapi.com/products/${id}`),
-    );
-    return data;
+    return this.apiService.findOneProduct(id);
   }
 
   async update(id: number, updateProductDto: UpdateProductDto) {
-    const { data } = await firstValueFrom(
-      this.httpService.patch(
-        `https://fakestoreapi.com/products/${id}`,
-        updateProductDto,
-      ),
-    );
-    return data;
+    return this.apiService.updatePRoduct(id, updateProductDto);
   }
 
   async remove(id: number) {
-    const { data } = await firstValueFrom(
-      this.httpService.delete(`https://fakestoreapi.com/products/${id}`),
-    );
-    return data;
+    return this.apiService.removeProduct(id);
   }
 
   async getCategories() {
-    const { data } = await firstValueFrom(
-      this.httpService.get('https://fakestoreapi.com/products/categories'),
-    );
-    return data;
+    return this.apiService.getCategories();
   }
 
   async getProductsByCategory(categoryName: string) {
-    const { data } = await firstValueFrom(
-      this.httpService.get(
-        `https://fakestoreapi.com/products/category/${categoryName}`,
-      ),
-    );
-    return data;
+    return this.apiService.getProductsByCategory(categoryName);
   }
 }
