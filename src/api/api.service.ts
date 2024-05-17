@@ -94,7 +94,7 @@ export class ApiService {
     const { data } = await firstValueFrom(
       this.httpService.get('https://fakestoreapi.com/carts', {
         params: {
-          ...(limit && { limit: limit.toString() }),
+          ...(limit && { limit: limit }),
           ...(sort && { sort }),
           ...(startDate && { startdate: startDate }),
           ...(endDate && { enddate: endDate }),
