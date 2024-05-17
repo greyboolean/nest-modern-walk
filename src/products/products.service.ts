@@ -49,4 +49,20 @@ export class ProductsService {
     );
     return data;
   }
+
+  async getCategories() {
+    const { data } = await firstValueFrom(
+      this.httpService.get('https://fakestoreapi.com/products/categories'),
+    );
+    return data;
+  }
+
+  async getProductsByCategory(categoryName: string) {
+    const { data } = await firstValueFrom(
+      this.httpService.get(
+        `https://fakestoreapi.com/products/category/${categoryName}`,
+      ),
+    );
+    return data;
+  }
 }
