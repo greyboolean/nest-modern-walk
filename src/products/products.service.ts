@@ -7,31 +7,31 @@ import { UpdateProductDto } from './dto/update-product.dto';
 export class ProductsService {
   constructor(private apiService: ApiService) {}
 
-  async create(createProductDto: CreateProductDto) {
+  create(createProductDto: CreateProductDto) {
     return this.apiService.createProduct(createProductDto);
   }
 
-  async findAll(limit?: number, sort?: string) {
-    return this.apiService.findAllProducts(limit, sort);
+  findAll(limit?: string, sort?: string) {
+    return this.apiService.findProducts(limit, sort);
   }
 
-  async findOne(id: number) {
-    return this.apiService.findOneProduct(id);
+  findOne(id: number) {
+    return this.apiService.findProduct(id);
   }
 
-  async update(id: number, updateProductDto: UpdateProductDto) {
-    return this.apiService.updatePRoduct(id, updateProductDto);
+  update(id: number, updateProductDto: UpdateProductDto) {
+    return this.apiService.updateProduct(id, updateProductDto);
   }
 
-  async remove(id: number) {
+  remove(id: number) {
     return this.apiService.removeProduct(id);
   }
 
-  async getCategories() {
-    return this.apiService.getCategories();
+  findCategories() {
+    return this.apiService.findCategories();
   }
 
-  async getProductsByCategory(categoryName: string) {
-    return this.apiService.getProductsByCategory(categoryName);
+  findProductsByCategory(category: string) {
+    return this.apiService.findProductsByCategory(category);
   }
 }

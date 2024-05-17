@@ -22,7 +22,7 @@ export class ProductsController {
   }
 
   @Get()
-  findAll(@Query('limit') limit?: number, @Query('sort') sort?: string) {
+  findAll(@Query('limit') limit?: string, @Query('sort') sort?: string) {
     return this.productsService.findAll(limit, sort);
   }
 
@@ -42,12 +42,12 @@ export class ProductsController {
   }
 
   @Get('categories')
-  getCategories() {
-    return this.productsService.getCategories();
+  findCategories() {
+    return this.productsService.findCategories();
   }
 
-  @Get('category/:categoryName')
-  getProductsByCategory(@Param('categoryName') categoryName: string) {
-    return this.productsService.getProductsByCategory(categoryName);
+  @Get('category/:category')
+  findProductsByCategory(@Param('category') category: string) {
+    return this.productsService.findProductsByCategory(category);
   }
 }

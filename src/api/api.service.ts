@@ -3,6 +3,8 @@ import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { CreateProductDto } from '../products/dto/create-product.dto';
 import { UpdateProductDto } from '../products/dto/update-product.dto';
+import { CreateCartDto } from 'src/carts/dto/create-cart.dto';
+import { UpdateCartDto } from 'src/carts/dto/update-cart.dto';
 
 @Injectable()
 export class ApiService {
@@ -20,11 +22,11 @@ export class ApiService {
     return data;
   }
 
-  async findAllProducts(limit?: number, sort?: string) {
+  async findProducts(limit?: string, sort?: string) {
     const { data } = await firstValueFrom(
       this.httpService.get('https://fakestoreapi.com/products', {
         params: {
-          ...(limit && { limit: limit.toString() }),
+          ...(limit && { limit }),
           ...(sort && { sort }),
         },
       }),
@@ -32,14 +34,14 @@ export class ApiService {
     return data;
   }
 
-  async findOneProduct(id: number) {
+  async findProduct(id: number) {
     const { data } = await firstValueFrom(
       this.httpService.get(`https://fakestoreapi.com/products/${id}`),
     );
     return data;
   }
 
-  async updatePRoduct(id: number, updateProductDto: UpdateProductDto) {
+  async updateProduct(id: number, updateProductDto: UpdateProductDto) {
     const { data } = await firstValueFrom(
       this.httpService.patch(
         `https://fakestoreapi.com/products/${id}`,
@@ -56,21 +58,78 @@ export class ApiService {
     return data;
   }
 
-  async getCategories() {
+  async findCategories() {
     const { data } = await firstValueFrom(
       this.httpService.get('https://fakestoreapi.com/products/categories'),
     );
     return data;
   }
 
-  async getProductsByCategory(categoryName: string) {
+  async findProductsByCategory(category: string) {
     const { data } = await firstValueFrom(
       this.httpService.get(
-        `https://fakestoreapi.com/products/category/${categoryName}`,
+        `https://fakestoreapi.com/products/category/${category}`,
       ),
     );
     return data;
   }
 
-  // cart
+  // carts
+
+  async createCart(createCartDto: CreateCartDto) {
+    const { data } = await firstValueFrom(
+      this.httpService.post('https://fakestoreapi.com/carts', createCartDto),
+    );
+    return data;
+  }
+
+  async findCarts(
+    limit?: string,
+    sort?: string,
+    startdate?: string,
+    enddate?: string,
+  ) {
+    const { data } = await firstValueFrom(
+      this.httpService.get('https://fakestoreapi.com/carts', {
+        params: {
+          ...(limit && { limit: limit.toString() }),
+          ...(sort && { sort }),
+          ...(startdate && { startdate }),
+          ...(enddate && { enddate }),
+        },
+      }),
+    );
+    return data;
+  }
+
+  async findCart(id: number) {
+    const { data } = await firstValueFrom(
+      this.httpService.get(`https://fakestoreapi.com/carts/${id}`),
+    );
+    return data;
+  }
+
+  async updateCart(id: number, updateCartDto: UpdateCartDto) {
+    const { data } = await firstValueFrom(
+      this.httpService.patch(
+        `https://fakestoreapi.com/carts/${id}`,
+        updateCartDto,
+      ),
+    );
+    return data;
+  }
+
+  async removeCart(id: number) {
+    const { data } = await firstValueFrom(
+      this.httpService.delete(`https://fakestoreapi.com/carts/${id}`),
+    );
+    return data;
+  }
+
+  async findCartsByUser(id: number) {
+    const { data } = await firstValueFrom(
+      this.httpService.get(`https://fakestoreapi.com/carts/user/${id}`),
+    );
+    return data;
+  }
 }
