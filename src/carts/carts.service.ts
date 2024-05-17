@@ -11,8 +11,8 @@ export class CartsService {
     return this.apiservice.createCart(createCartDto);
   }
 
-  findAll(limit?: string, sort?: string, startdate?: string, enddate?: string) {
-    return this.apiservice.findCarts(limit, sort, startdate, enddate);
+  findAll(limit?: string, sort?: string, startDate?: string, endDate?: string) {
+    return this.apiservice.findCarts(limit, sort, startDate, endDate);
   }
 
   findOne(id: number) {

@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { CartsService } from './carts.service';
 import { CreateCartDto } from './dto/create-cart.dto';
@@ -21,8 +22,13 @@ export class CartsController {
   }
 
   @Get()
-  findAll() {
-    return this.cartsService.findAll();
+  findAll(
+    @Query('limit') limit?: string,
+    @Query('sort') sort?: string,
+    @Query('startdate') startDate?: string,
+    @Query('enddate') endDate?: string,
+  ) {
+    return this.cartsService.findAll(limit, sort, startDate, endDate);
   }
 
   @Get(':id')

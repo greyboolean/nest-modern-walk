@@ -5,6 +5,8 @@ import { CreateProductDto } from '../products/dto/create-product.dto';
 import { UpdateProductDto } from '../products/dto/update-product.dto';
 import { CreateCartDto } from 'src/carts/dto/create-cart.dto';
 import { UpdateCartDto } from 'src/carts/dto/update-cart.dto';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { UpdateUserDto } from 'src/users/dto/update-user.dto';
 
 @Injectable()
 export class ApiService {
@@ -86,16 +88,16 @@ export class ApiService {
   async findCarts(
     limit?: string,
     sort?: string,
-    startdate?: string,
-    enddate?: string,
+    startDate?: string,
+    endDate?: string,
   ) {
     const { data } = await firstValueFrom(
       this.httpService.get('https://fakestoreapi.com/carts', {
         params: {
           ...(limit && { limit: limit.toString() }),
           ...(sort && { sort }),
-          ...(startdate && { startdate }),
-          ...(enddate && { enddate }),
+          ...(startDate && { startdate: startDate }),
+          ...(endDate && { enddate: endDate }),
         },
       }),
     );
@@ -129,6 +131,51 @@ export class ApiService {
   async findCartsByUser(id: number) {
     const { data } = await firstValueFrom(
       this.httpService.get(`https://fakestoreapi.com/carts/user/${id}`),
+    );
+    return data;
+  }
+
+  // users
+
+  async createUser(createUserDto: CreateUserDto) {
+    const { data } = await firstValueFrom(
+      this.httpService.post('https://fakestoreapi.com/users', createUserDto),
+    );
+    return data;
+  }
+
+  async findUsers(limit?: string, sort?: string) {
+    const { data } = await firstValueFrom(
+      this.httpService.get('https://fakestoreapi.com/users', {
+        params: {
+          ...(limit && { limit }),
+          ...(sort && { sort }),
+        },
+      }),
+    );
+    return data;
+  }
+
+  async findUser(id: number) {
+    const { data } = await firstValueFrom(
+      this.httpService.get(`https://fakestoreapi.com/users/${id}`),
+    );
+    return data;
+  }
+
+  async updateUser(id: number, updateUserDto: UpdateUserDto) {
+    const { data } = await firstValueFrom(
+      this.httpService.patch(
+        `https://fakestoreapi.com/users/${id}`,
+        updateUserDto,
+      ),
+    );
+    return data;
+  }
+
+  async removeUser(id: number) {
+    const { data } = await firstValueFrom(
+      this.httpService.delete(`https://fakestoreapi.com/users/${id}`),
     );
     return data;
   }
