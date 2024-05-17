@@ -15,13 +15,17 @@ export class ProductsService {
         createProductDto,
       ),
     );
-    console.log(data);
     return data;
   }
 
-  async findAll() {
+  async findAll(limit?: number, sort?: string) {
     const { data } = await firstValueFrom(
-      this.httpService.get('https://fakestoreapi.com/products'),
+      this.httpService.get('https://fakestoreapi.com/products', {
+        params: {
+          ...(limit && { limit: limit.toString() }),
+          ...(sort && { sort }),
+        },
+      }),
     );
     return data;
   }
