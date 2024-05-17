@@ -179,4 +179,13 @@ export class ApiService {
     );
     return data;
   }
+
+  // auth
+
+  async login(loginDto: any) {
+    const { data } = await firstValueFrom(
+      this.httpService.post('https://fakestoreapi.com/auth/login', loginDto),
+    );
+    return data;
+  }
 }
