@@ -19,8 +19,8 @@ model Tenant {
   tenantId     String     @unique
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
-  dataSource   DataSource @relation(fields: [dataSourceId], references: [id])
-  dataSourceId Int
+  dataSource   DataSource? @relation(fields: [dataSourceId], references: [id])
+  dataSourceId Int?
 }
 
 model DataSource {
