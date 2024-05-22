@@ -1,5 +1,5 @@
 import { execSync } from 'child_process';
-import { PrismaClient } from '../prisma/generated/main-client';
+import { PrismaClient } from '@prisma/main-client';
 import * as dotenv from 'dotenv';
 
 dotenv.config();

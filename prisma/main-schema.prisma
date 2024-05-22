@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output = "./generated/main-client"
+  output   = "../node_modules/@prisma/main-client"
 }
 
 datasource db {
@@ -15,10 +15,10 @@ datasource db {
 }
 
 model Tenant {
-  id           Int        @id @default(autoincrement())
-  tenantId     String     @unique
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  id           Int         @id @default(autoincrement())
+  tenantId     String      @unique
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
   dataSource   DataSource? @relation(fields: [dataSourceId], references: [id])
   dataSourceId Int?
 }
