@@ -3,10 +3,10 @@ import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { CreateProductDto } from '../products/dto/create-product.dto';
 import { UpdateProductDto } from '../products/dto/update-product.dto';
-import { CreateCartDto } from 'src/carts/dto/create-cart.dto';
-import { UpdateCartDto } from 'src/carts/dto/update-cart.dto';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
-import { UpdateUserDto } from 'src/users/dto/update-user.dto';
+import { CreateCartDto } from '../carts/dto/create-cart.dto';
+import { UpdateCartDto } from '../carts/dto/update-cart.dto';
+import { CreateUserDto } from '../users/dto/create-user.dto';
+import { UpdateUserDto } from '../users/dto/update-user.dto';
 
 @Injectable()
 export class ApiService {
