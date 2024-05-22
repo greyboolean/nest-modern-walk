@@ -42,4 +42,13 @@ export class TenantsService {
       where: { id },
     });
   }
+
+  findByTenantId(tenantId: string) {
+    return this.prisma.tenant.findUnique({
+      where: { tenantId },
+      include: {
+        dataSource: true,
+      },
+    });
+  }
 }
