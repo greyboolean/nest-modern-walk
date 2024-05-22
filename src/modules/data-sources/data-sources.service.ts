@@ -14,12 +14,19 @@ export class DataSourcesService {
   }
 
   findAll() {
-    return this.prisma.dataSource.findMany();
+    return this.prisma.dataSource.findMany({
+      include: {
+        tenants: true,
+      },
+    });
   }
 
   findOne(id: number) {
     return this.prisma.dataSource.findUnique({
       where: { id },
+      include: {
+        tenants: true,
+      },
     });
   }
 

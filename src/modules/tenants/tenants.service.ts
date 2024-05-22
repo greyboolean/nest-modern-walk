@@ -14,12 +14,19 @@ export class TenantsService {
   }
 
   findAll() {
-    return this.prisma.tenant.findMany();
+    return this.prisma.tenant.findMany({
+      include: {
+        dataSource: true,
+      },
+    });
   }
 
   findOne(id: number) {
     return this.prisma.tenant.findUnique({
       where: { id },
+      include: {
+        dataSource: true,
+      },
     });
   }
 
