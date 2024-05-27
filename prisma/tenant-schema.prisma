@@ -19,6 +19,9 @@ model User {
   email     String   @unique
   username  String
   password  String
+  name      Json
+  address   Json
+  phone     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   tenantId  String
