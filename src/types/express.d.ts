@@ -7,7 +7,7 @@ declare global {
     interface Request {
       tenant?: {
         tenantId: string;
-        dataSourceUrl: string;
+        datasourceUrl: string;
       };
     }
   }

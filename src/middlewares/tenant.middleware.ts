@@ -27,10 +27,8 @@ export class TenantMiddleware implements NestMiddleware {
 
     request.tenant = {
       tenantId: tenant.tenantId,
-      dataSourceUrl: tenant.dataSource.url,
+      datasourceUrl: tenant.dataSource.url,
     };
-
-    console.log(request.tenant);
 
     next();
   }
