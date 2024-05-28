@@ -14,6 +14,7 @@ export class TenantMiddleware implements NestMiddleware {
   async use(request: Request, response: Response, next: NextFunction) {
     const tenantId = request.headers['x-tenant-id'] as string;
 
+    // FIXME tenantId not required for main database
     const tenant = await this.tenantsService.findByTenantId(tenantId);
 
     if (!tenant) {
@@ -29,6 +30,7 @@ export class TenantMiddleware implements NestMiddleware {
       tenantId: tenant.tenantId,
       datasourceUrl: tenant.dataSource.url,
     };
+    request.body.tenantId = tenant.tenantId;
 
     next();
   }
