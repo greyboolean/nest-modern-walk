@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { TenantsService } from './tenants.service';
 import { CreateTenantDto } from './dto/create-tenant.dto';
@@ -32,19 +33,22 @@ export class TenantsController {
 
   @Get(':id')
   @ApiOkResponse({ type: Tenant })
-  findOne(@Param('id') id: string) {
-    return this.tenantsService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.tenantsService.findOne(id);
   }
 
   @Patch(':id')
   @ApiOkResponse({ type: Tenant })
-  update(@Param('id') id: string, @Body() updateTenantDto: UpdateTenantDto) {
-    return this.tenantsService.update(+id, updateTenantDto);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateTenantDto: UpdateTenantDto,
+  ) {
+    return this.tenantsService.update(id, updateTenantDto);
   }
 
   @Delete(':id')
   @ApiOkResponse({ type: Tenant })
-  remove(@Param('id') id: string) {
-    return this.tenantsService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.tenantsService.remove(id);
   }
 }

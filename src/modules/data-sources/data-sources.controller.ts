@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { DataSourcesService } from './data-sources.service';
 import { CreateDataSourceDto } from './dto/create-data-source.dto';
@@ -32,22 +33,22 @@ export class DataSourcesController {
 
   @Get(':id')
   @ApiOkResponse({ type: DataSource })
-  findOne(@Param('id') id: string) {
-    return this.dataSourcesService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.dataSourcesService.findOne(id);
   }
 
   @Patch(':id')
   @ApiOkResponse({ type: DataSource })
   update(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateDataSourceDto: UpdateDataSourceDto,
   ) {
-    return this.dataSourcesService.update(+id, updateDataSourceDto);
+    return this.dataSourcesService.update(id, updateDataSourceDto);
   }
 
   @Delete(':id')
   @ApiOkResponse({ type: DataSource })
-  remove(@Param('id') id: string) {
-    return this.dataSourcesService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.dataSourcesService.remove(id);
   }
 }

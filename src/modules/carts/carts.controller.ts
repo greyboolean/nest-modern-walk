@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Query,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { CartsService } from './carts.service';
 import { CreateCartDto } from './dto/create-cart.dto';
@@ -38,25 +39,28 @@ export class CartsController {
 
   @Get(':id')
   @ApiOkResponse({ type: Cart })
-  findOne(@Param('id') id: string) {
-    return this.cartsService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.cartsService.findOne(id);
   }
 
   @Patch(':id')
   @ApiOkResponse({ type: Cart })
-  update(@Param('id') id: string, @Body() updateCartDto: UpdateCartDto) {
-    return this.cartsService.update(+id, updateCartDto);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateCartDto: UpdateCartDto,
+  ) {
+    return this.cartsService.update(id, updateCartDto);
   }
 
   @Delete(':id')
   @ApiOkResponse({ type: Cart })
-  remove(@Param('id') id: string) {
-    return this.cartsService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.cartsService.remove(id);
   }
 
   @Get('user/:id')
   @ApiOkResponse({ type: Cart, isArray: true })
-  findCartsByUser(@Param('id') id: string) {
-    return this.cartsService.findCartsByUser(+id);
+  findCartsByUser(@Param('id', ParseIntPipe) id: number) {
+    return this.cartsService.findCartsByUser(id);
   }
 }
