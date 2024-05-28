@@ -16,7 +16,4 @@ export class CreateUserDto {
   };
 
   phone: string;
-
-  // TODO remove once tenantId is implemented using prisma client
-  tenantId: string;
 }

@@ -7,8 +7,8 @@ import { TenantPrismaService } from '../prisma/tenant-prisma.service';
 export class UsersService {
   constructor(private prisma: TenantPrismaService) {}
 
-  create(createUserDto: CreateUserDto) {
-    return this.prisma.user.create({ data: createUserDto });
+  create(createUserDto: CreateUserDto, tenantId: string) {
+    return this.prisma.user.create({ data: { ...createUserDto, tenantId } });
   }
 
   findAll(limit?: string, sort?: 'asc' | 'desc') {
