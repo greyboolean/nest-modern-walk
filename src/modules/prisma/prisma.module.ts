@@ -1,8 +1,12 @@
 import { Module, Scope } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
-import { Request } from 'express';
 import { MainPrismaService } from './main-prisma.service';
 import { TenantPrismaService } from './tenant-prisma.service';
+
+export interface ContextPayload {
+  tenantId: string;
+  datasourceUrl: string;
+}
 
 @Module({
   providers: [
@@ -10,11 +14,10 @@ import { TenantPrismaService } from './tenant-prisma.service';
     {
       provide: TenantPrismaService,
       scope: Scope.REQUEST,
+      durable: true,
       inject: [REQUEST],
-      useFactory: (request: Request) => {
-        const {
-          tenant: { datasourceUrl, tenantId },
-        } = request;
+      useFactory: (ctxPayload: ContextPayload) => {
+        const { tenantId, datasourceUrl } = ctxPayload;
         return new TenantPrismaService(datasourceUrl).extend(tenantId);
       },
     },
