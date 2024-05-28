@@ -6,6 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../node_modules/@prisma/tenant-client"
 }
 
 datasource db {
@@ -13,19 +14,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Tenant {
-  id           Int        @id @default(autoincrement())
-  tenantId     String     @unique
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  dataSource   DataSource @relation(fields: [dataSourceId], references: [id])
-  dataSourceId Int
-}
-
-model DataSource {
+model User {
   id        Int      @id @default(autoincrement())
-  url       String
+  email     String   @unique
+  username  String
+  password  String
+  name      Json
+  address   Json
+  phone     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  tenants   Tenant[]
+  tenantId  String
 }

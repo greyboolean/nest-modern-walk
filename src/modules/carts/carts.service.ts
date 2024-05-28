@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ApiService } from 'src/api/api.service';
+import { ApiService } from '../api/api.service';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
 
