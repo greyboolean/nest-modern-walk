@@ -10,6 +10,7 @@ import { PrismaModule } from './modules/prisma/prisma.module';
 import { TenantsModule } from './modules/tenants/tenants.module';
 import { DataSourcesModule } from './modules/data-sources/data-sources.module';
 import { TenantMiddleware } from './middlewares/tenant.middleware';
+import { JwtConfigModule } from './modules/jwt-config/jwt-config.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { TenantMiddleware } from './middlewares/tenant.middleware';
     PrismaModule,
     TenantsModule,
     DataSourcesModule,
+    JwtConfigModule,
   ],
   controllers: [AppController],
   providers: [AppService],

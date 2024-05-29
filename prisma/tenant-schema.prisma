@@ -14,10 +14,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  admin
+  user
+}
+
 model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
-  username  String
+  username  String   @unique
   password  String
   name      Json
   address   Json
@@ -25,4 +30,5 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   tenantId  String
+  roles     Role[]   @default([user])
 }
