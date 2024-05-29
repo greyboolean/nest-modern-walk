@@ -20,7 +20,8 @@ export class UsersService {
   }
 
   findOne(id: number) {
-    return this.prisma.user.findUnique({ where: { id } });
+    // return this.prisma.user.findUnique({ where: { id } });
+    return this.prisma.user.findUniqueOrThrow({ where: { id } });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
@@ -32,7 +33,8 @@ export class UsersService {
   }
 
   findOneByUsername(username: string) {
-    return this.prisma.user.findUnique({ where: { username } });
+    // return this.prisma.user.findUnique({ where: { username } });
+    return this.prisma.user.findUniqueOrThrow({ where: { username } });
   }
 
   async hashPassword(password: string) {
