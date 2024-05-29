@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, Scope } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { ApiModule } from '../api/api.module';
@@ -15,10 +15,14 @@ import { RolesGuard } from './guards/roles.guard';
     AuthService,
     {
       provide: APP_GUARD,
+      scope: Scope.REQUEST,
+      durable: true,
       useClass: AuthGuard,
     },
     {
       provide: APP_GUARD,
+      scope: Scope.REQUEST,
+      durable: true,
       useClass: RolesGuard,
     },
   ],
