@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsJSON, IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
@@ -18,12 +18,10 @@ export class CreateUserDto {
   password: string;
 
   @ApiProperty()
-  @IsJSON()
   @IsNotEmpty()
   name: { firstname: string; lastname: string };
 
   @ApiProperty()
-  @IsJSON()
   @IsNotEmpty()
   address: {
     city: string;
