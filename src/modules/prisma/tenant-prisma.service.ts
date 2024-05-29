@@ -39,6 +39,9 @@ export class TenantPrismaService extends PrismaClient {
           async findUnique({ args, query }) {
             return query({ where: { ...args.where, tenantId } });
           },
+          async findUniqueOrThrow({ args, query }) {
+            return query({ where: { ...args.where, tenantId } });
+          },
           async update({ args, query }) {
             return query({
               where: { ...args.where, tenantId },

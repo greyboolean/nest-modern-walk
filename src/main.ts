@@ -1,8 +1,9 @@
-import { ContextIdFactory, NestFactory } from '@nestjs/core';
+import { ContextIdFactory, HttpAdapterHost, NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { AggregateByTenantContextIdStrategy } from './modules/prisma/aggregate-by-tenant-context-id.strategy';
-import { ValidationPipe } from '@nestjs/common';
+import { PrismaClientExceptionFilter } from './filters/prisma-client-exception/prisma-client-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -12,6 +13,10 @@ async function bootstrap() {
 
   // validation
   app.useGlobalPipes(new ValidationPipe());
+
+  // exception filter
+  const { httpAdapter } = app.get(HttpAdapterHost);
+  app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
 
   // swagger
   const config = new DocumentBuilder()
