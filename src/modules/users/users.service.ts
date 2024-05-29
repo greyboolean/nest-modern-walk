@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
+import { TenantPrismaService } from '../prisma/tenant-prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { TenantPrismaService } from '../prisma/tenant-prisma.service';
 
 @Injectable()
 export class UsersService {
@@ -28,5 +29,14 @@ export class UsersService {
 
   remove(id: number) {
     return this.prisma.user.delete({ where: { id } });
+  }
+
+  findOneByUsername(username: string) {
+    return this.prisma.user.findUnique({ where: { username } });
+  }
+
+  async hashPassword(password: string) {
+    const salt = await bcrypt.genSaltSync();
+    return bcrypt.hash(password, salt);
   }
 }

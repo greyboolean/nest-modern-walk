@@ -1,23 +1,28 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Role } from '../enums/role.enum';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
-export class User {
-  @ApiProperty()
-  id: number;
-
+export class SignUpDto {
+  @IsEmail()
+  @IsNotEmpty()
   @ApiProperty()
   email: string;
 
+  @IsString()
+  @IsNotEmpty()
   @ApiProperty()
   username: string;
 
+  @IsString()
+  @IsNotEmpty()
   @ApiProperty()
   password: string;
 
   @ApiProperty()
+  @IsNotEmpty()
   name: { firstname: string; lastname: string };
 
   @ApiProperty()
+  @IsNotEmpty()
   address: {
     city: string;
     street: string;
@@ -26,9 +31,8 @@ export class User {
     geolocation: { lat: string; long: string };
   };
 
+  @IsString()
+  @IsNotEmpty()
   @ApiProperty()
   phone: string;
-
-  @ApiProperty()
-  roles: Role[];
 }

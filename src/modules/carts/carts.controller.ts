@@ -14,8 +14,10 @@ import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Cart } from './entities/cart.entity';
+import { Public } from '../auth/decorators/public.decorator';
 
 @Controller('carts')
+@Public()
 @ApiTags('carts')
 export class CartsController {
   constructor(private readonly cartsService: CartsService) {}

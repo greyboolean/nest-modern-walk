@@ -8,14 +8,23 @@ import {
   Delete,
   ParseIntPipe,
 } from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { DataSourcesService } from './data-sources.service';
 import { CreateDataSourceDto } from './dto/create-data-source.dto';
 import { UpdateDataSourceDto } from './dto/update-data-source.dto';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { DataSource } from './entities/data-source.entity';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { Role } from '../users/enums/role.enum';
 
 @Controller('data-sources')
+@Roles(Role.Admin)
 @ApiTags('data-sources')
+@ApiBearerAuth()
 export class DataSourcesController {
   constructor(private readonly dataSourcesService: DataSourcesService) {}
 
