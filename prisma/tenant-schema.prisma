@@ -24,11 +24,38 @@ model User {
   email     String   @unique
   username  String   @unique
   password  String
-  name      Json
-  address   Json
+  name      Name     @relation(fields: [nameId], references: [id], onDelete: Cascade)
+  nameId    Int      @unique
+  address   Address  @relation(fields: [addressId], references: [id], onDelete: Cascade)
+  addressId Int      @unique
   phone     String
+  roles     Role[]   @default([user])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   tenantId  String
-  roles     Role[]   @default([user])
+}
+
+model Name {
+  id        Int    @id @default(autoincrement())
+  firstname String
+  lastname  String
+  user      User?
+}
+
+model Address {
+  id            Int         @id @default(autoincrement())
+  city          String
+  street        String
+  number        Int
+  zipcode       String
+  geolocation   Geolocation @relation(fields: [geolocationId], references: [id], onDelete: Cascade)
+  geolocationId Int         @unique
+  user          User?
+}
+
+model Geolocation {
+  id      Int      @id @default(autoincrement())
+  lat     String
+  long    String
+  address Address?
 }
