@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Role } from '../enums/role.enum';
+import { Exclude } from 'class-transformer';
 
 export class User {
   @ApiProperty()
@@ -11,7 +12,7 @@ export class User {
   @ApiProperty()
   username: string;
 
-  @ApiProperty()
+  @Exclude()
   password: string;
 
   @ApiProperty()

@@ -1,5 +1,10 @@
-import { ContextIdFactory, HttpAdapterHost, NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
+import {
+  ContextIdFactory,
+  HttpAdapterHost,
+  NestFactory,
+  Reflector,
+} from '@nestjs/core';
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { AggregateByTenantContextIdStrategy } from './modules/prisma/aggregate-by-tenant-context-id.strategy';
@@ -13,6 +18,9 @@ async function bootstrap() {
 
   // validation
   app.useGlobalPipes(new ValidationPipe());
+
+  // serialization
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   // exception filter
   const { httpAdapter } = app.get(HttpAdapterHost);
