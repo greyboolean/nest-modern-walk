@@ -8,7 +8,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UsersService {
   constructor(private prisma: TenantPrismaService) {}
 
-  create(createUserDto: CreateUserDto, tenantId: string) {
+  async create(createUserDto: CreateUserDto, tenantId: string) {
+    createUserDto.password = await this.hashPassword(createUserDto.password);
     return this.prisma.user.create({ data: { ...createUserDto, tenantId } });
   }
 
@@ -23,7 +24,10 @@ export class UsersService {
     return this.prisma.user.findUnique({ where: { id } });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    if (updateUserDto.password) {
+      updateUserDto.password = await this.hashPassword(updateUserDto.password);
+    }
     return this.prisma.user.update({ where: { id }, data: updateUserDto });
   }
 
@@ -37,7 +41,7 @@ export class UsersService {
   }
 
   async hashPassword(password: string) {
-    const salt = await bcrypt.genSaltSync();
+    const salt = bcrypt.genSaltSync();
     return bcrypt.hash(password, salt);
   }
 }

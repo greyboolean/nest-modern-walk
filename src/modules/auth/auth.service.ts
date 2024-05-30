@@ -16,13 +16,9 @@ export class AuthService {
   async logIn(logInDto: LogInDto) {
     const { username, password } = logInDto;
     const user = await this.usersService.findOneByUsername(username);
-    // TODO set up password hashing
-    if (!user || !(password === user.password)) {
+    if (!user || !(await this.valiatePassword(password, user.password))) {
       throw new UnauthorizedException('Invalid credentials');
     }
-    // if (!user || !(await this.valiatePassword(password, user.password))) {
-    //   throw new UnauthorizedException('Invalid credentials');
-    // }
     return this.generateToken(user);
   }
 
