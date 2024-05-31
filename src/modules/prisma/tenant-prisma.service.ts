@@ -15,7 +15,8 @@ export class TenantPrismaService extends PrismaClient {
   extend(tenantId: string) {
     return this.$extends({
       query: {
-        $allModels: {
+        // TODO execute this on all models
+        user: {
           async create({ args, query }) {
             return query({ data: { ...args.data, tenantId } });
           },

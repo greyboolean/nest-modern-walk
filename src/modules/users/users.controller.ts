@@ -10,13 +10,13 @@ import {
   Req,
   ParseIntPipe,
 } from '@nestjs/common';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
 import { UsersService } from './users.service';
+import { Public } from '../auth/decorators/public.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Request } from 'express';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
-import { Public } from '../auth/decorators/public.decorator';
 
 @Controller('users')
 @Public()
@@ -26,37 +26,40 @@ export class UsersController {
 
   @Post()
   @ApiCreatedResponse({ type: User })
-  create(@Body() createUserDto: CreateUserDto, @Req() request: Request) {
-    return this.usersService.create(createUserDto, request.tenant.tenantId);
+  async create(@Body() createUserDto: CreateUserDto, @Req() request: Request) {
+    return new User(
+      await this.usersService.create(createUserDto, request.tenant.tenantId),
+    );
   }
 
   @Get()
   @ApiOkResponse({ type: User, isArray: true })
-  findAll(
+  async findAll(
     @Query('limit') limit?: string,
     @Query('sort') sort?: 'asc' | 'desc',
   ) {
-    return this.usersService.findAll(limit, sort);
+    const users = await this.usersService.findAll(limit, sort);
+    return users.map((user) => new User(user));
   }
 
   @Get(':id')
   @ApiOkResponse({ type: User })
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.findOne(id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return new User(await this.usersService.findOne(id));
   }
 
   @Patch(':id')
   @ApiOkResponse({ type: User })
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    return this.usersService.update(id, updateUserDto);
+    return new User(await this.usersService.update(id, updateUserDto));
   }
 
   @Delete(':id')
   @ApiOkResponse({ type: User })
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.remove(id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    return new User(await this.usersService.remove(id));
   }
 }
