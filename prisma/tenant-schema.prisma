@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/@prisma/tenant-client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  admin
+  user
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  username  String   @unique
+  password  String
+  name      Name     @relation(fields: [nameId], references: [id], onDelete: Cascade)
+  nameId    Int      @unique
+  address   Address  @relation(fields: [addressId], references: [id], onDelete: Cascade)
+  addressId Int      @unique
+  phone     String
+  roles     Role[]   @default([user])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  tenantId  String
+}
+
+model Name {
+  id        Int    @id @default(autoincrement())
+  firstname String
+  lastname  String
+  user      User?
+}
+
+model Address {
+  id            Int         @id @default(autoincrement())
+  city          String
+  street        String
+  number        Int
+  zipcode       String
+  geolocation   Geolocation @relation(fields: [geolocationId], references: [id], onDelete: Cascade)
+  geolocationId Int         @unique
+  user          User?
+}
+
+model Geolocation {
+  id      Int      @id @default(autoincrement())
+  lat     String
+  long    String
+  address Address?
+}
