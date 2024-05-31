@@ -17,6 +17,10 @@ export interface ContextPayload {
       durable: true,
       inject: [REQUEST],
       useFactory: (ctxPayload: ContextPayload) => {
+        // tenantId not required for the main database
+        if (!ctxPayload) {
+          return;
+        }
         const { tenantId, datasourceUrl } = ctxPayload;
         return new TenantPrismaService(datasourceUrl).extend(tenantId);
       },
